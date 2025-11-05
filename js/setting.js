@@ -2,7 +2,7 @@ var CONFIG = {};
 
 // この状態で表示された時はcookieを優先
 
-CONFIG.DEFAULTHASH = /#5\/36.10461[\d]*\/140.08455[\d]*\/&base=std&ls=std&disp=1&vs=c1j0h0k0l0u0t0z0r0s0m0f1/g;
+CONFIG.DEFAULTHASH = /#10\/37.233062\/136.917114&base=std&ls=std&disp=1&vs=c1j0h0k0l0u0t0z0r0s0m0f1&s=1&sync=1&base2=std&ls2=csmap_noto_overlay&disp2=1/g;
 
 //
 CONFIG.USECOOKIE = true;
@@ -726,6 +726,7 @@ CONFIG.QUERYPARAMETER[CONFIG.PARAMETERNAMES.SPLITWINDOW] = {
   prefix: 's',
   settingName: 'splitWindow'
 };
+
 CONFIG.QUERYPARAMETER[CONFIG.PARAMETERNAMES.COMPAREMAP] = {
   prefix: 'm',
   settingName: 'compareMap'

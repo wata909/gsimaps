@@ -995,6 +995,25 @@
       "src": "https://maps.gsi.go.jp/sar/layers_txt/layers_alos2_eq_20240101noto.txt"
     },
     {
+      "type": "LayerGroup",
+      "title": "CS立体図",
+      "iconUrl": "",
+      "toggleall": false,
+      "entries": [
+        {
+          "type": "Layer",
+          "id": "csmap_noto_overlay",
+          "title": "林野庁能登CS立体図（発災後）",
+          "url": "https://rinya.geospatial.jp/tile/csmaptile_noto/{z}/{x}/{y}.png",
+          "cocotile": false,
+          "minZoom": 2,
+          "maxZoom": 18,
+          "html": "<div class='layer_text'><p>林野庁提供の能登地域CS立体図（発災後）です。地形の起伏を詳細に表現しています。</p></div>",
+          "attribution": "林野庁"
+        }
+      ]
+    },
+    {
       "type": "Layer",
       "id": "20240102noto_population",
       "title": "能登半島250mメッシュあたり人口分布（総務省統計局）",

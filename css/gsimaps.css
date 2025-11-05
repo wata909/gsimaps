@@ -10961,3 +10961,9 @@ MapMenu
 .gsi_modal_dialog_display {
 	display: none;
 }
+
+/* 分割表示時のマウスポインタミラー */
+.gsi-split-pointer {
+	pointer-events: none;
+	z-index: 10000;
+}

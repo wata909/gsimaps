@@ -51051,6 +51051,128 @@ GSI.Menu.PopupPanel.Item = GSI.MenuBase.extend({
 });
 
 /************************************************************************
+  GSI.SplitPointerMirror
+    分割表示時のマウスポインタミラー機能
+************************************************************************/
+GSI.SplitPointerMirror = L.Evented.extend({
+  initialize: function (leftMap, rightMap) {
+    this._leftMap = leftMap;
+    this._rightMap = rightMap;
+    this._leftMarker = null;
+    this._rightMarker = null;
+    this._enabled = true;
+    this._setupEventHandlers();
+  },
+
+  enable: function () {
+    if (this._enabled) return;
+    this._enabled = true;
+    this._setupEventHandlers();
+  },
+
+  disable: function () {
+    if (!this._enabled) return;
+    this._enabled = false;
+    this._removeEventHandlers();
+    this._hideMarkers();
+  },
+
+  destroy: function () {
+    this.disable();
+    if (this._leftMarker && this._leftMap) {
+      this._leftMap.removeLayer(this._leftMarker);
+    }
+    if (this._rightMarker && this._rightMap) {
+      this._rightMap.removeLayer(this._rightMarker);
+    }
+    this._leftMarker = null;
+    this._rightMarker = null;
+  },
+
+  _setupEventHandlers: function () {
+    this._leftMoveHandler = L.bind(this._onLeftMapMouseMove, this);
+    this._leftOutHandler = L.bind(this._onLeftMapMouseOut, this);
+    this._rightMoveHandler = L.bind(this._onRightMapMouseMove, this);
+    this._rightOutHandler = L.bind(this._onRightMapMouseOut, this);
+
+    this._leftMap.on('mousemove', this._leftMoveHandler);
+    this._leftMap.on('mouseout', this._leftOutHandler);
+    this._rightMap.on('mousemove', this._rightMoveHandler);
+    this._rightMap.on('mouseout', this._rightOutHandler);
+  },
+
+  _removeEventHandlers: function () {
+    if (this._leftMoveHandler) {
+      this._leftMap.off('mousemove', this._leftMoveHandler);
+      this._leftMap.off('mouseout', this._leftOutHandler);
+      this._rightMap.off('mousemove', this._rightMoveHandler);
+      this._rightMap.off('mouseout', this._rightOutHandler);
+    }
+  },
+
+  _onLeftMapMouseMove: function (e) {
+    if (!this._enabled) return;
+    var latlng = e.latlng;
+    this._showMarkerOnMap(this._rightMap, latlng, 'right');
+  },
+
+  _onLeftMapMouseOut: function () {
+    this._hideMarker('right');
+  },
+
+  _onRightMapMouseMove: function (e) {
+    if (!this._enabled) return;
+    var latlng = e.latlng;
+    this._showMarkerOnMap(this._leftMap, latlng, 'left');
+  },
+
+  _onRightMapMouseOut: function () {
+    this._hideMarker('left');
+  },
+
+  _showMarkerOnMap: function (map, latlng, side) {
+    var marker = side === 'left' ? this._leftMarker : this._rightMarker;
+    
+    if (!marker) {
+      marker = L.circleMarker(latlng, {
+        radius: 8,
+        color: '#ff0000',
+        fillColor: '#ff0000',
+        fillOpacity: 0.3,
+        weight: 2,
+        className: 'gsi-split-pointer'
+      });
+      marker.addTo(map);
+      
+      if (side === 'left') {
+        this._leftMarker = marker;
+      } else {
+        this._rightMarker = marker;
+      }
+    } else {
+      marker.setLatLng(latlng);
+      if (!map.hasLayer(marker)) {
+        marker.addTo(map);
+      }
+    }
+  },
+
+  _hideMarker: function (side) {
+    var marker = side === 'left' ? this._leftMarker : this._rightMarker;
+    var map = side === 'left' ? this._leftMap : this._rightMap;
+    
+    if (marker && map.hasLayer(marker)) {
+      map.removeLayer(marker);
+    }
+  },
+
+  _hideMarkers: function () {
+    this._hideMarker('left');
+    this._hideMarker('right');
+  }
+});
+
+/************************************************************************
   GSIMaps
     アプリケーション
 ************************************************************************/
@@ -51183,6 +51305,12 @@ GSI.GSIMaps = L.Evented.extend({
 
     if (visible) {
 
+      // ポインタミラー機能を破棄（比較モードでは不要）
+      if (this._pointerMirror) {
+        this._pointerMirror.destroy();
+        this._pointerMirror = null;
+      }
+
       if (!this._subMap) {
         this._mainMap._mapMenu.setPanelOverlap(true);
 
@@ -51213,14 +51341,23 @@ GSI.GSIMaps = L.Evented.extend({
 
         this._subMap._initializeDialogs(layersJSON, this._header.getHeight(), false, "");
         this._subMap._mapMenu.getMapListPanel().setTree_Init(layersJSON._data);
-        this._subMap.initializeBaseLayer("std", false);
+        
+        // 右画面用のベースマップID（設定があれば使用、なければ標準地図）
+        var rightBaseMapId = CONFIG.SPLITWINDOW_DEFAULT_BASEMAP_ID || "std";
+        this._subMap.initializeBaseLayer(rightBaseMapId, false);
 
         this._subMap._baseLayer.addTo(this._subMap._map);
 
-        this._subMap._baseLayer.setActiveIndex(0);
-        var std = this._subMap._baseLayer.baseLayerList[0];
-
-        this._subMap._mapLayerList.append(std);
+        // 指定されたIDのベースマップを取得して追加
+        var rightBaseMap = this._subMap._baseLayer.baseLayerList.find(function(layer) {
+          return layer.id === rightBaseMapId;
+        });
+        if (rightBaseMap) {
+          this._subMap._mapLayerList.append(rightBaseMap);
+        } else {
+          // IDが見つからない場合は最初のベースマップを使用
+          this._subMap._mapLayerList.append(this._subMap._baseLayer.baseLayerList[0]);
+        }
 
         this._subMap._mapMouse.setClickMoveVisible(this._mainMap._mapMouse.getClickMoveVisible());
         this._subMap._centerCross.setVisible(this._mainMap._centerCross.getVisible());
@@ -51365,19 +51502,35 @@ GSI.GSIMaps = L.Evented.extend({
 
         this._subMap._initializeDialogs(layersJSON, this._header.getHeight(), false, "");
         this._subMap._mapMenu.getMapListPanel().setTree_Init(layersJSON._data);
+        
+        // 右画面は標準地図（std）をベースマップとして使用
         this._subMap.initializeBaseLayer("std", false);
 
         this._subMap._baseLayer.addTo(this._subMap._map);
 
-        this._subMap._baseLayer.setActiveIndex(0);
-        var std = this._subMap._baseLayer.baseLayerList[0];
+        // 標準地図をベースマップとして追加
+        var stdBaseMap = this._subMap._baseLayer.baseLayerList.find(function(layer) {
+          return layer.id === "std";
+        });
+        if (stdBaseMap) {
+          this._subMap._mapLayerList.append(stdBaseMap);
+        }
 
-        this._subMap._mapLayerList.append(std);
+        // CS立体図オーバーレイレイヤを追加
+        var csOverlayLayer = layersJSON.find("csmap_noto_overlay");
+        if (csOverlayLayer) {
+          this._subMap._mapLayerList.append(csOverlayLayer);
+        }
 
         this._subMap._mapMouse.setClickMoveVisible(this._mainMap._mapMouse.getClickMoveVisible());
         this._subMap._centerCross.setVisible(this._mainMap._centerCross.getVisible());
         this._subMap._zoomGuide.setVisible(this._mainMap._zoomGuide.getVisible());
 
+        this._refreshSync(this._syncSplitMap);
+      }
+
+      // 連動コントロールを作成（_subMapが存在し、まだ作成されていない場合）
+      if (this._subMap && !this._subMap._syncControl) {
         this._subMap._syncControl = new GSI.Control.MapSplitControl({
           sync: this._syncSplitMap
         });
@@ -51392,14 +51545,22 @@ GSI.GSIMaps = L.Evented.extend({
             this._syncSplitMap = e.sync;
             this._refreshSync(this._syncSplitMap);
           }, this));
+      }
 
-        this._refreshSync(this._syncSplitMap);
-
+      // ポインタミラー機能を初期化（_subMapが存在する場合は常に作成）
+      if (this._subMap && !this._pointerMirror) {
+        this._pointerMirror = new GSI.SplitPointerMirror(this._mainMap._map, this._subMap._map);
       }
 
       if (this._mainMap._comparePhotoControl) this._mainMap._comparePhotoControl.adjust();
 
     } else {
+
+      // ポインタミラー機能を破棄
+      if (this._pointerMirror) {
+        this._pointerMirror.destroy();
+        this._pointerMirror = null;
+      }
 
       if (this._subMap) {
         this._subMap._splited = false;
@@ -51666,7 +51827,15 @@ GSI.GSIMaps = L.Evented.extend({
             this._queryParams.getLeftPanel2Visible(),
             this._queryParams.getCurrentPath2());
 
-          this._subMap.initializeBaseLayer(this._queryParams.getBaseMap2(), this._queryParams.getBaseMapGrayScale2());
+          // URL復元時：右画面はstdベースマップ + CS立体図オーバーレイ
+          var baseMap2 = this._queryParams.getBaseMap2();
+          var useDefaultSetup = !baseMap2 && this._subMap._splited;
+          
+          if (useDefaultSetup) {
+            // デフォルト設定を使用（stdベースマップ + CS立体図）
+            baseMap2 = "std";
+          }
+          this._subMap.initializeBaseLayer(baseMap2, this._queryParams.getBaseMapGrayScale2());
 
           this._subMap._mapMenu.getMapListPanel().setLayers(layersJSON.visibleLayers, layersJSON.tree, layersJSON.visibleLayersHash);
 
@@ -51674,6 +51843,17 @@ GSI.GSIMaps = L.Evented.extend({
             this._subMap._baseLayer.addTo(this._subMap._map);
             if (!this._queryParams.getBaseMapDisp2()) {
               this._subMap.getMap().removeLayer(this._subMap._baseLayer);
+            }
+          } else if (this._subMap._splited && baseMap2) {
+            // 分割表示でデフォルトベースマップを使用する場合
+            this._subMap._baseLayer.addTo(this._subMap._map);
+          }
+          
+          // デフォルト設定の場合、CS立体図オーバーレイを追加
+          if (useDefaultSetup) {
+            var csOverlayLayer = layersJSON.find("csmap_noto_overlay");
+            if (csOverlayLayer) {
+              this._subMap._mapLayerList.append(csOverlayLayer);
             }
           }
 
@@ -51712,6 +51892,11 @@ GSI.GSIMaps = L.Evented.extend({
                 this._refreshSync(this._syncSplitMap);
               }, this));
             this._refreshSync(this._syncSplitMap);
+            
+            // ポインタミラー機能を初期化（URL復元時）
+            if (!this._pointerMirror) {
+              this._pointerMirror = new GSI.SplitPointerMirror(this._mainMap._map, this._subMap._map);
+            }
           }
         }
 

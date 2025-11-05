@@ -51,6 +51,16 @@
       "html" : "",
       "legendUrl": "",
       "errorTileUrl": "./image/map/no-data-ort.png"
+    },
+    {
+      "type": "Layer",
+      "id": "csmap_noto",
+      "title": "林野庁 能登CS立体図（発災後）",
+      "url": "https://rinya.geospatial.jp/tile/csmaptile_noto/{z}/{x}/{y}.png",
+      "minZoom": 2,
+      "maxZoom": 18,
+      "html": "<div class='layer_text'>林野庁提供の能登地域森林基本図タイル</div>",
+      "attribution": "林野庁"
     }
   ]
 }
