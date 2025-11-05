@@ -51517,7 +51517,7 @@ GSI.GSIMaps = L.Evented.extend({
         }
 
         // CS立体図オーバーレイレイヤを追加
-        var csOverlayLayer = layersJSON.find("csmap_noto_overlay");
+        var csOverlayLayer = this._layersJSON.layersHash["csmap_noto_overlay"];
         if (csOverlayLayer) {
           this._subMap._mapLayerList.append(csOverlayLayer);
         }
@@ -51526,30 +51526,30 @@ GSI.GSIMaps = L.Evented.extend({
         this._subMap._centerCross.setVisible(this._mainMap._centerCross.getVisible());
         this._subMap._zoomGuide.setVisible(this._mainMap._zoomGuide.getVisible());
 
-        this._refreshSync(this._syncSplitMap);
-      }
+        // マップの準備完了を待ってから連動コントロールとポインタミラーを作成
+        this._subMap._map.whenReady(L.bind(function() {
+          // 連動コントロールを作成
+          this._subMap._syncControl = new GSI.Control.MapSplitControl({
+            sync: this._syncSplitMap
+          });
+          this._subMap._syncControl.addTo(this._subMap._map);
+          this._subMap._syncControl
+            .on("stop", L.bind(function () {
+              this.split(false);
 
-      // 連動コントロールを作成（_subMapが存在し、まだ作成されていない場合）
-      if (this._subMap && !this._subMap._syncControl) {
-        this._subMap._syncControl = new GSI.Control.MapSplitControl({
-          sync: this._syncSplitMap
-        });
-        this._subMap._syncControl.addTo(this._subMap._map);
-        this._subMap._syncControl
-          .on("stop", L.bind(function () {
-            this.split(false);
+            }, this))
+            .on("syncchange", L.bind(function (e) {
 
-          }, this))
-          .on("syncchange", L.bind(function (e) {
+              this._syncSplitMap = e.sync;
+              this._refreshSync(this._syncSplitMap);
+            }, this));
 
-            this._syncSplitMap = e.sync;
-            this._refreshSync(this._syncSplitMap);
-          }, this));
-      }
+          // ポインタミラー機能を初期化
+          this._pointerMirror = new GSI.SplitPointerMirror(this._mainMap._map, this._subMap._map);
 
-      // ポインタミラー機能を初期化（_subMapが存在する場合は常に作成）
-      if (this._subMap && !this._pointerMirror) {
-        this._pointerMirror = new GSI.SplitPointerMirror(this._mainMap._map, this._subMap._map);
+          // 最後に連動を開始
+          this._refreshSync(this._syncSplitMap);
+        }, this));
       }
 
       if (this._mainMap._comparePhotoControl) this._mainMap._comparePhotoControl.adjust();
@@ -51851,7 +51851,7 @@ GSI.GSIMaps = L.Evented.extend({
           
           // デフォルト設定の場合、CS立体図オーバーレイを追加
           if (useDefaultSetup) {
-            var csOverlayLayer = layersJSON.find("csmap_noto_overlay");
+            var csOverlayLayer = this._layersJSON.layersHash["csmap_noto_overlay"];
             if (csOverlayLayer) {
               this._subMap._mapLayerList.append(csOverlayLayer);
             }
