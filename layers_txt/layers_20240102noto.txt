@@ -1015,6 +1015,38 @@
       ]
     },
     {
+      "type": "LayerGroup",
+      "title": "能登地すべり範囲グリッド",
+      "iconUrl": "",
+      "toggleall": false,
+      "entries": [
+        {
+          "type": "Layer",
+          "id": "noto_landslide_grid",
+          "title": "能登崩壊地分布グリッド",
+          "url": "./data/geojson/noto_2500_wgs84_grid.geojson",
+          "cocotile": false,
+          "minZoom": 10,
+          "maxZoom": 18,
+          "layerType": "geojson",
+          "html": "<div class='layer_text'><p>能登地域の崩壊地分布を示す2500地形図グリッドです。</p></div>",
+          "attribution": "国土地理院"
+        },
+        {
+          "type": "Layer",
+          "id": "noto_landslide_grid_labels",
+          "title": "グリッド番号",
+          "url": "./data/geojson/noto_2500_wgs84_labels.geojson",
+          "cocotile": false,
+          "minZoom": 12,
+          "maxZoom": 18,
+          "layerType": "geojson",
+          "html": "<div class='layer_text'><p>グリッド番号を表示します。Zoom 12以上で表示されます。</p></div>",
+          "attribution": "国土地理院"
+        }
+      ]
+    },
+    {
       "type": "Layer",
       "id": "20240102noto_population",
       "title": "能登半島250mメッシュあたり人口分布（総務省統計局）",
