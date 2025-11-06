@@ -1008,6 +1008,7 @@
           "cocotile": false,
           "minZoom": 2,
           "maxZoom": 18,
+          "maxNativeZoom": 17,
           "html": "<div class='layer_text'><p>林野庁提供の能登地域CS立体図（発災後）です。地形の起伏を詳細に表現しています。</p></div>",
           "attribution": "林野庁"
         }

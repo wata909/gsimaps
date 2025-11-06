@@ -59,6 +59,7 @@
       "url": "https://rinya.geospatial.jp/tile/csmaptile_noto/{z}/{x}/{y}.png",
       "minZoom": 2,
       "maxZoom": 18,
+      "maxNativeZoom": 17,
       "html": "<div class='layer_text'>林野庁提供の能登地域森林基本図タイル</div>",
       "attribution": "林野庁"
     }
