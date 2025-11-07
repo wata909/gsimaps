@@ -1038,10 +1038,10 @@
           "title": "グリッド番号",
           "url": "./data/geojson/noto_2500_wgs84_labels.geojson",
           "cocotile": false,
-          "minZoom": 12,
+          "minZoom": 13,
           "maxZoom": 18,
           "layerType": "geojson",
-          "html": "<div class='layer_text'><p>グリッド番号を表示します。Zoom 12以上で表示されます。</p></div>",
+          "html": "<div class='layer_text'><p>グリッド番号を表示します。Zoom 13以上で表示されます。</p></div>",
           "attribution": "国土地理院"
         }
       ]
