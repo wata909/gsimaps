@@ -670,7 +670,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240106noto_suzu_wazimahigashi_cloud_poly/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            },
            {
@@ -680,7 +680,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240106noto_suzu_wazimahigashi_hokai_all/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            },
            {
@@ -690,7 +690,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240106noto_suzu_wazimahigashi_handoku_area/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            }
          ]
@@ -709,7 +709,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240115noto_wazimanaka_cloud_poly/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            },
            {
@@ -719,7 +719,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240115noto_wazimanaka_hokai_all/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            },
            {
@@ -729,7 +729,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240115noto_wazimanaka_handoku_area/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            }
          ]
@@ -748,7 +748,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240112noto_wazimanishi_cloud_poly/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            },
            {
@@ -758,7 +758,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240112noto_wazimanishi_hokai_all/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            },
            {
@@ -768,7 +768,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240112noto_wazimanishi_handoku_area/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            }
          ]
@@ -787,7 +787,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240106noto_anamizu_hokai_all/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            },
            {
@@ -797,7 +797,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240106noto_anamizu_handoku_area/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            }
          ]
@@ -816,7 +816,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240109noto_nanao_hokai_all/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            },
            {
@@ -826,7 +826,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240109noto_nanao_handoku_area/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2
            }
          ]
@@ -838,7 +838,7 @@
              "url": "https://maps.gsi.go.jp/xyz/20240102noto_hokai_bunzu/{z}/{x}/{y}.geojson",
              "cocotile": true,
              "minZoom": 2,
-             "maxZoom": 17,
+             "maxZoom": 18,
              "maxNativeZoom": 2,
              "html" : "<div class='layer_text'>1.この分図図郭は、令和6年能登半島地震に伴う斜面崩壊・堆積分布図の作成範囲を40分割した図郭を表示したものです。<br>2.各図郭をクリックすると吹き出しが表示され、図郭番号に該当するリンク表示から分図PDFファイルを表示することができます。</li></ul></div><div class=\"gsi_layerinfo_copy\">(c)国土地理院"
        }
