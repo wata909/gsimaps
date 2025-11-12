@@ -1011,6 +1011,18 @@
           "maxNativeZoom": 17,
           "html": "<div class='layer_text'><p>林野庁提供の能登地域CS立体図（発災後）です。地形の起伏を詳細に表現しています。</p></div>",
           "attribution": "林野庁"
+        },
+        {
+          "type": "Layer",
+          "id": "csmap_noto_ffpri",
+          "title": "森林総研　能登CS立体図（発災前）",
+          "url": "https://www2.ffpri.go.jp/soilmap/tile/cs_noto/{z}/{x}/{y}.png",
+          "cocotile": false,
+          "minZoom": 2,
+          "maxZoom": 18,
+          "maxNativeZoom": 17,
+          "html": "<div class='layer_text'><p>森林総合研究所提供の能登地域CS立体図（発災前）です。地形の起伏を詳細に表現しています。</p></div>",
+          "attribution": "森林総合研究所"
         }
       ]
     },
