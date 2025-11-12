@@ -1,14 +1,29 @@
-# gsimaps (地理院地図)
-<a href='https://github.com/gsi-cyberjapan/gsimaps/blob/gh-pages/README.en.md'>Tentative English translation</a> for this README is also available since 2015-03-12.
+# 鳥大地理情報研地図 (gsimaps改良版)
 
-## hashtag
-このレポジトリのハッシュタグは #gsimaps です。
-X: https://x.com/hashtag/gsimaps
+本レポジトリは、国土地理院の地理院地図（gsimaps）を改良したものです。
 
-## 地理院地図
+## 改良内容
+
+- **能登半島地震関連データの拡張**
+  - 能登地すべり範囲グリッド（2500地形図グリッド）の追加
+  - グリッド番号ラベルの表示機能（Zoom 13-18）
+  - 森林総研の能登CS立体図（発災前）の追加
+  - 林野庁の能登CS立体図（発災後）のオーバーズーム対応（Zoom 18まで）
+
+- **GeoJSONデータ表示機能の強化**
+  - カスタムGeoJSONファイルの表示機能
+  - アンダースコアプレフィックスプロパティによるスタイリング対応
+  - DivIconを使用したラベル表示機能
+
+## 地理院地図（オリジナル）
 
 - 地理院地図（国土地理院が運営しているもの）：https://maps.gsi.go.jp/
-- 地理院地図（本レポジトリを用いたデモ）：https://gsi-cyberjapan.github.io/gsimaps/
+- 地理院地図（オリジナルレポジトリ）：https://github.com/gsi-cyberjapan/gsimaps
+- 鳥大地理情報研地図（本レポジトリ）：https://wata909.github.io/gsimaps/
+
+## hashtag
+オリジナルのハッシュタグは #gsimaps です。
+X: https://x.com/hashtag/gsimaps
 
 ## 本レポジトリの利用方法
 本レポジトリの一式をダウンロードしたものをウェブサーバに置き、[index.html](index.html) を開いてください。
